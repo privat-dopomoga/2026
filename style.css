@@ -1,0 +1,215 @@
+/* Mobile MilleKod App - Exact Replica Styles */
+
+
+/* Exact iOS button styling */
+.btn {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.24px;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* iOS input field styling */
+.input-field {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.24px;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Exact color matching */
+.btn-primary {
+    background-color: #ff2d92 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+    background-color: #e0267f !important;
+}
+
+.btn-primary:active {
+    background-color: #c91e6d !important;
+    transform: scale(0.98);
+}
+
+/* Progress bar exact styling */
+.progress-bar {
+    background-color: #ff2d92 !important;
+    box-shadow: 0 1px 2px rgba(255, 45, 146, 0.3);
+}
+
+/* Link styling */
+.forgot-link {
+    color: #ff3b30 !important;
+    font-weight: 400;
+    letter-spacing: -0.24px;
+}
+
+/* Description text styling */
+.description {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.08px;
+    line-height: 18px;
+}
+
+/* Title styling */
+.title {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.41px;
+}
+
+/* Input field focus state */
+.input-field:focus {
+    border-color: #007aff !important;
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+/* Button disabled state */
+.btn:disabled {
+    opacity: 0.3 !important;
+    background-color: #ff2d92 !important;
+    color: #ffffff !important;
+}
+
+/* Secondary button styling */
+.btn-secondary {
+    background-color: #f2f2f7 !important;
+    color: #8e8e93 !important;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #e5e5ea !important;
+}
+
+.btn-secondary:active {
+    background-color: #d1d1d6 !important;
+    transform: scale(0.98);
+}
+
+
+/* Home indicator */
+.home-indicator {
+    background-color: #000000 !important;
+}
+
+/* Message styling */
+.message {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.24px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.message.success {
+    background-color: #34c759 !important;
+}
+
+.message.error {
+    background-color: #ff3b30 !important;
+}
+
+/* Loading animation */
+@keyframes loading {
+    0% { 
+        left: -100%; 
+    }
+    100% { 
+        left: 100%; 
+    }
+}
+
+/* Touch feedback */
+.btn:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+}
+
+/* Prevent text selection */
+body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.input-field {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* iOS-like transitions */
+* {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Exact spacing and sizing */
+.main-content {
+    padding-top: 2px !important;
+}
+
+.title {
+    margin-bottom: 60px !important;
+}
+
+.input-container {
+    margin-bottom: 20px !important;
+}
+
+.forgot-link {
+    margin-bottom: 40px !important;
+}
+
+.description {
+    margin-bottom: 60px !important;
+}
+
+.buttons-container {
+    gap: 12px !important;
+}
+
+/* Responsive adjustments for exact match */
+@media (max-width: 375px) {
+    .main-content {
+        padding: 2px 16px 20px !important;
+    }
+    
+    .title {
+        font-size: 28px !important;
+        margin-bottom: 40px !important;
+    }
+    
+    .description {
+        margin-bottom: 40px !important;
+    }
+}
+
+/* Dark mode support (if needed) */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #000000;
+        color: #ffffff;
+    }
+    
+    .status-bar {
+        background-color: #000000;
+    }
+    
+    .input-field {
+        background-color: #1c1c1e;
+        border-color: #38383a;
+        color: #ffffff;
+    }
+    
+    .btn-secondary {
+        background-color: #1c1c1e !important;
+        color: #8e8e93 !important;
+    }
+}
